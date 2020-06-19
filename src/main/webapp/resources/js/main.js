@@ -27,7 +27,7 @@ function onConnected() {
 
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
-        {}, JSON.stringify({sender: username, type: 'JOIN'})
+        {}, JSON.stringify({sender: username})
     )
 }
 
@@ -60,15 +60,15 @@ function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
     putXO((message.x + '' + message.y), message.side)
     if (message.winner === true) {
+        alert(message.side + " WIN!!!");
         message.winner = false;
         window.location.href = "/"
-        alert(message.side + " WIN!!!");
         disconnect()
 
     } else if (message.winner === false) {
-        message.winner = false;
-        window.location.href = "/"
         alert(" DRAW!!!");
+        message.winner = true;
+        window.location.href = "/"
         disconnect()
     }
 
